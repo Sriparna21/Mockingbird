@@ -1,1 +1,4 @@
-print('This is going to be a mocking app')
+from auth import login
+
+if login():
+    pass
