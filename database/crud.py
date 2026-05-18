@@ -1,6 +1,7 @@
-from db import User,engine
+from database.db import User,engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError,SQLAlchemyError
+import bcrypt as b
 
 Session = sessionmaker(bind = engine)
 
@@ -11,7 +12,11 @@ def add_users(nm,usnm,pswd):
     session  = Session()
     try:    
         if (nm and usnm and pswd):
-            user = User(name = nm,username = usnm,password =pswd)
+            hash_pswd = b.hashpw(
+                 pswd.encode('utf-8'),
+                 b.gensalt()
+             ).decode('utf-8')
+            user = User(name = nm,username = usnm.lower(),password =hash_pswd)
             session.add(user)
             session.commit()
             return True
@@ -28,7 +33,7 @@ def get_users_by_username(usnm):
     session  = Session()
     try:
         if usnm:
-            user = session.query(User).filter_by(username = usnm).first()
+            user = session.query(User).filter_by(username = usnm.lower()).first()
             return user
     except Exception as e:
         print(f'Invalid user: {e}')
@@ -41,12 +46,15 @@ def update_user_password(usnm,pswd):
     session  = Session()
     try:
         if usnm:
-            user = session.query(User).filter_by(username = usnm).first()
+            user = session.query(User).filter_by(username = usnm.lower()).first()
 
             if not user:
                 return False
 
-            user.password = pswd
+            user.password = b.hashpw(
+                 pswd.encode('utf-8'),
+                 b.gensalt()
+             ).decode('utf-8')
             session.commit()
             return True
     except Exception as e:
@@ -62,7 +70,7 @@ def remove_user(usnm):
     session  = Session()
     try:
         if usnm: 
-            user = session.query(User).filter_by(username = usnm).first() 
+            user = session.query(User).filter_by(username = usnm.lower()).first() 
 
             if not user:
                 return False

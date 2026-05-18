@@ -86,12 +86,13 @@ engine = create_engine('postgresql://sriparnaghoshchaudhuri:sriparnaghoshchaudhu
 
 base = declarative_base()
 
+#Creating table users_orm 
 class User(base):
     __tablename__ = 'users_orm'
 
     id = Column(Integer, primary_key=True)
     name = Column(String)
-    username = Column(String)
+    username = Column(String,unique = True)
     password = Column(String)
 
 base.metadata.create_all(engine)
