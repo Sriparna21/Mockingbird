@@ -19,11 +19,22 @@ def add_users(nm,usnm,pswd):
             user = User(name = nm,username = usnm.lower(),password =hash_pswd)
             session.add(user)
             session.commit()
-            return True
-    except IntegrityError as e:
+            return {
+                "success": True,
+                "message": "User created successfully"
+            }
+    except IntegrityError:
         session.rollback()
-        print(f'Cannot add user: {e}')
-        return False
+        return {
+            "success": False,
+            "message": "Username already exists"
+        }
+    except Exception as e:
+        session.rollback()
+        return {
+            "success": False,
+            "message": str(e)
+        }
     finally:
         session.close()
 
