@@ -2,6 +2,7 @@ from database.db import User,engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import IntegrityError,SQLAlchemyError
 import bcrypt as b
+from utils.logger import logger
 
 Session = sessionmaker(bind = engine)
 
@@ -19,11 +20,25 @@ def add_users(nm,usnm,pswd):
             user = User(name = nm,username = usnm.lower(),password =hash_pswd)
             session.add(user)
             session.commit()
-            return True
+            logger.info(f'User {nm} created successfully in the system')
+            return {
+                "success": True,
+                "message": "User created successfully"
+            }
     except IntegrityError as e:
+        logger.exception(f'IntegrityError, {e}')
         session.rollback()
-        print(f'Cannot add user: {e}')
-        return False
+        return {
+            "success": False,
+            "message": "Username already exists"
+        }
+    except Exception as e:
+        logger.exception(f'Something failed,{e}')
+        session.rollback()
+        return {
+            "success": False,
+            "message": str(e)
+        }
     finally:
         session.close()
 
@@ -34,9 +49,10 @@ def get_users_by_username(usnm):
     try:
         if usnm:
             user = session.query(User).filter_by(username = usnm.lower()).first()
+            logger.info(f"User found in the system, {usnm}")
             return user
     except Exception as e:
-        print(f'Invalid user: {e}')
+        logger.exception(f'Invalid user: {e}')
         return None
     finally:
         session.close()
@@ -56,10 +72,11 @@ def update_user_password(usnm,pswd):
                  b.gensalt()
              ).decode('utf-8')
             session.commit()
+            logger.info(f'Password for user {usnm} has been updated')
             return True
     except Exception as e:
         session.rollback()
-        print(f'Invalid user : {e}')
+        logger.exception(f'Invalid user : {e}')
         return False
     finally:
         session.close()
@@ -77,10 +94,11 @@ def remove_user(usnm):
 
             session.delete(user)
             session.commit()
+            logger.info(f'User {usnm} has been deleted')
             return True
     except IntegrityError as e:
         session.rollback()
-        print(f'Cannot delete user: {e}')
+        logger.exception(f'Cannot delete user: {e}')
         return False
     finally:
         session.close()
@@ -88,8 +106,7 @@ def remove_user(usnm):
             
 
     
-# abc = get_users_by_username('baranger')
-# print(abc.name)
+
 
 
 
