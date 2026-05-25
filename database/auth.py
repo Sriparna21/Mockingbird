@@ -1,7 +1,9 @@
 import bcrypt as b
 # from db import User,engine
 from database.crud import get_users_by_username
-from sqlalchemy.orm import sessionmaker
+import streamlit as st
+from utils.logger import logger
+
 
 
 
@@ -33,6 +35,21 @@ def verify_user(usnm,pswd):
             user.password.encode('utf-8')
         )
     except Exception as e:
-        print(f'Something went wrong, {e}')
+        logger.exception(f'Something went wrong, {e}')
         return False
     
+
+def login_check(usnm, pswd):
+    if verify_user(usnm, pswd):
+        st.session_state.logged_in = True
+        logger.info(f'Login successful for user, {usnm}')
+        return True
+    else:
+        logger.error(f'Failed login for user, {usnm}')
+        return False
+
+def logout():
+   logger.info(f'Logout successful')
+   st.session_state.logged_in = False
+   st.switch_page('app.py')
+   return True
