@@ -40,13 +40,14 @@ def verify_user(usnm,pswd):
     
 
 def login_check(usnm, pswd):
-    if verify_user(usnm, pswd):
-        st.session_state.logged_in = True
-        logger.info(f'Login successful for user, {usnm}')
-        return True
-    else:
-        logger.error(f'Failed login for user, {usnm}')
-        return False
+    if usnm and pswd:
+        if verify_user(usnm, pswd):
+            st.session_state.logged_in = True
+            logger.info(f'Login successful for user, {usnm}')
+            return True
+        else:
+            logger.error(f'Failed login for user, {usnm}')
+            return False
 
 def logout():
    logger.info(f'Logout successful')
