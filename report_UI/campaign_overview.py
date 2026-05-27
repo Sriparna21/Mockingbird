@@ -20,7 +20,7 @@ k2.metric('Success Rate',
           f"{round(((report_df_metrics[report_df_metrics['outcome'] == 'success']['outcome_count'].sum()/report_df_metrics['outcome_count'].sum())*100),2)}%")
 k3.metric('Failure Rate',
           f"{round(((report_df_metrics[report_df_metrics['outcome'] == 'failure']['outcome_count'].sum()/report_df_metrics['outcome_count'].sum())*100),2)}%")
-k4.metric('Data Coverage percentage',f"{round(((report_df_metrics['outcome_count'].count()/report_df['outcome_count'].count())*100),2)}%")
+k4.metric('Data Coverage percentage',f"{round(((report_df_metrics['outcome_count'].sum()/report_df['outcome_count'].sum())*100),2)}%")
 
 st.markdown("<br><br>", unsafe_allow_html=True)
 
@@ -49,7 +49,35 @@ with col2:
     selected_count = st.selectbox('Select count',[5,10,15,20,'All'])
 
     if selected_count != 'All':
-        filtered_count = filtered_df.head(selected_count)
+
+        # Logic for ALL outcomes
+        if selected_outcome == 'All':
+
+            top_campaigns = (
+                filtered_df
+                .groupby('campaign')['outcome_count']
+                .sum()
+                .sort_values(ascending=False)
+                .head(selected_count)
+                .index
+            )
+
+            filtered_count = filtered_df[
+                filtered_df['campaign'].isin(top_campaigns)
+            ]
+
+        # Logic for single outcome
+        else:
+
+            filtered_count = (
+                filtered_df
+                .sort_values(
+                    by='outcome_count',
+                    ascending=False
+                )
+                .head(selected_count)
+            )
+
     else:
         filtered_count = filtered_df
     
