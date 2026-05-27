@@ -1,13 +1,18 @@
 import streamlit as st
+from utils.styling import apply_background
 from report_service.campaign_overview import (get_campaign_overview)
 import plotly.express as px
+
+st.set_page_config(layout="wide")
+apply_background('utils/background.jpg')
 
 st.title('Campaign Overview')
 st.markdown("<br>", unsafe_allow_html=True)
 
+
 st.write('This is a summary report containing information regarding the performance of all the campaigns.')
 
-st.markdown("<br>", unsafe_allow_html=True)
+st.markdown("<br><br>", unsafe_allow_html=True)
 
 k1,k2,k3,k4 = st.columns(4)
 
@@ -93,5 +98,14 @@ bar_chart_data = filtered_count.pivot(
 
 st.bar_chart(bar_chart_data)
 
-st.button('Download')
+with st.expander("View Raw Data"):
+
+    st.dataframe(bar_chart_data)
+
+st.download_button(
+    label = 'Download Report',
+    data = bar_chart_data.to_csv(index=False),
+    file_name='Campaign_overview.csv',
+    mime='text/csv'
+)
 
