@@ -77,12 +77,16 @@ with col1:
         )
 
         fig.update_layout(
-            height=400,
+            height=510,
             margin=dict(t=20, b=20),
             coloraxis_showscale=False
         )
 
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True,config={'displayModeBar': False})
+
+       
+
+
 
 with col2:
     with st.container(border=True):
@@ -93,5 +97,13 @@ with col2:
         st.dataframe(
             lb,
             use_container_width=True,
-            height=405
+            height=460
         )
+
+        st.download_button(
+            label = 'Download Report',
+            data = lb.to_csv(index=True),
+            file_name='Campaign_effectiveness.csv',
+            mime='text/csv'
+            )
+
