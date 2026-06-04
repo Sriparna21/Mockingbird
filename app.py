@@ -46,7 +46,7 @@ with col1:
 
 with col2:
 
-    if st.button('Singup',use_container_width=True):
+    if st.button('Signup',use_container_width=True):
         st.switch_page('pages/3_register.py')
 
 

@@ -9,7 +9,7 @@ if "logged_in" not in st.session_state:
 
 if not st.session_state.logged_in:
     st.warning("Please login first")
-    st.switch_page('pages/app.py')
+    st.switch_page('app.py')
 
 if st.session_state.logged_in:
 
