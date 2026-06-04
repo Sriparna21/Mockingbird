@@ -1,0 +1,1297 @@
+2026-06-04 18:00:58,890 - INFO - User found in the system, ghoshchs
+2026-06-04 18:00:59,084 - ERROR - No role found for the userr : (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 32, in get_user_access
+    user = session.query(UserAccess).filter_by(username = usnm.lower()).first()
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-06-04 18:00:59,091 - ERROR - No access found for the user : (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 48, in get_role_access
+    user = session.query(UserAccess).filter_by(username = usnm.lower()).first()
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-06-04 18:00:59,092 - INFO - Login successful for user, ghoshchs
+2026-06-04 18:22:17,213 - INFO - Logout successful
+2026-06-04 18:22:24,131 - INFO - User found in the system, ghoshchs
+2026-06-04 18:22:24,315 - ERROR - No role found for the userr : (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 32, in get_user_access
+    user = session.query(UserAccess).filter_by(username = usnm.lower()).first()
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-06-04 18:22:24,317 - ERROR - No access found for the user : (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 48, in get_role_access
+    user = session.query(UserAccess).filter_by(username = usnm.lower()).first()
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-06-04 18:22:24,318 - INFO - Login successful for user, ghoshchs
+2026-06-04 18:22:24,318 - ERROR - No role found for the userr : (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 32, in get_user_access
+    user = session.query(UserAccess).filter_by(username = usnm.lower()).first()
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-06-04 18:22:24,320 - ERROR - No access found for the user : (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 48, in get_role_access
+    user = session.query(UserAccess).filter_by(username = usnm.lower()).first()
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-06-04 18:23:05,533 - INFO - User found in the system, ghoshchs
+2026-06-04 18:23:05,723 - ERROR - No role found for the userr : (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 32, in get_user_access
+    user = session.query(UserAccess).filter_by(username = usnm.lower()).first()
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-06-04 18:23:05,729 - ERROR - No access found for the user : (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 48, in get_role_access
+    user = session.query(UserAccess).filter_by(username = usnm.lower()).first()
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-06-04 18:23:05,730 - INFO - Login successful for user, ghoshchs
+2026-06-04 18:23:05,749 - ERROR - No role found for the userr : (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 32, in get_user_access
+    user = session.query(UserAccess).filter_by(username = usnm.lower()).first()
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-06-04 18:23:05,751 - ERROR - No access found for the user : (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+psycopg2.errors.UndefinedColumn: column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 48, in get_role_access
+    user = session.query(UserAccess).filter_by(username = usnm.lower()).first()
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2766, in first
+    return self.limit(1)._iter().first()  # type: ignore
+           ~~~~~~~~~~~~~~~~~~~^^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/query.py", line 2864, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/orm/context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/sql/elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/sqlalchemy/engine/default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.ProgrammingError: (psycopg2.errors.UndefinedColumn) column user_access.role does not exist
+LINE 1: ...id, user_access.username AS user_access_username, user_acces...
+                                                             ^
+
+[SQL: SELECT user_access.id AS user_access_id, user_access.username AS user_access_username, user_access.role AS user_access_role 
+FROM user_access 
+WHERE user_access.username = %(username_1)s 
+ LIMIT %(param_1)s]
+[parameters: {'username_1': 'ghoshchs', 'param_1': 1}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2026-06-04 18:30:08,218 - INFO - Logout successful
+2026-06-04 18:30:14,567 - INFO - User found in the system, ghoshchs
+2026-06-04 18:30:14,746 - ERROR - No role found for the userr : 'UserAccess' object has no attribute 'role'
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 33, in get_user_access
+    role = user.role
+           ^^^^^^^^^
+AttributeError: 'UserAccess' object has no attribute 'role'
+2026-06-04 18:30:14,749 - ERROR - No access found for the user : 'UserAccess' object has no attribute 'role'
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 53, in get_role_access
+    access = session.query(RoleAccess).filter_by(role = user.role).all()
+                                                        ^^^^^^^^^
+AttributeError: 'UserAccess' object has no attribute 'role'
+2026-06-04 18:30:14,750 - INFO - Login successful for user, ghoshchs
+2026-06-04 18:30:14,750 - ERROR - No role found for the userr : 'UserAccess' object has no attribute 'role'
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 33, in get_user_access
+    role = user.role
+           ^^^^^^^^^
+AttributeError: 'UserAccess' object has no attribute 'role'
+2026-06-04 18:30:14,751 - ERROR - No access found for the user : 'UserAccess' object has no attribute 'role'
+Traceback (most recent call last):
+  File "/Users/sriparnaghoshchaudhuri/Documents/Python Basics/Mockingbird/Mockingbird/database/auth.py", line 53, in get_role_access
+    access = session.query(RoleAccess).filter_by(role = user.role).all()
+                                                        ^^^^^^^^^
+AttributeError: 'UserAccess' object has no attribute 'role'
+2026-06-04 18:34:06,464 - INFO - Logout successful
+2026-06-04 18:34:12,551 - INFO - User found in the system, ghoshchs
+2026-06-04 18:34:12,735 - INFO - Login successful for user, ghoshchs
+2026-06-04 19:04:18,124 - INFO - User found in the system, ghoshchs
+2026-06-04 19:04:18,309 - INFO - Login successful for user, ghoshchs
+2026-06-04 19:26:34,211 - INFO - Logout successful
+2026-06-04 19:26:40,441 - INFO - User found in the system, baranger
+2026-06-04 19:26:40,629 - INFO - Login successful for user, baranger
+2026-06-04 19:26:52,835 - INFO - Logout successful
+2026-06-04 19:36:44,907 - INFO - User found in the system, baranger
+2026-06-04 19:36:45,088 - INFO - Login successful for user, baranger
+2026-06-04 19:39:12,604 - INFO - Logout successful
+2026-06-04 21:44:07,811 - INFO - User found in the system, ghoshchs
+2026-06-04 21:44:08,002 - INFO - Login successful for user, ghoshchs
+2026-06-04 21:57:58,612 - INFO - User found in the system, ghoshchs
+2026-06-04 21:57:58,801 - INFO - User found in the system, ghoshchs
+2026-06-04 21:57:58,802 - INFO - Login successful for user, ghoshchs
+2026-06-04 22:03:29,734 - INFO - Logout successful
+2026-06-04 22:03:36,790 - INFO - User found in the system, ghoshchs
+2026-06-04 22:03:36,977 - INFO - User found in the system, ghoshchs
+2026-06-04 22:05:44,842 - INFO - User found in the system, ghoshchs
+2026-06-04 22:05:45,041 - INFO - User found in the system, ghoshchs
+2026-06-04 22:05:45,042 - INFO - Login successful for user, ghoshchs

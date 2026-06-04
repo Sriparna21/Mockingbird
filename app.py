@@ -1,4 +1,4 @@
-from database.auth import login_check
+from database.auth import login_check,get_role_access,get_user_access
 from utils.styling import apply_background
 import streamlit as st
 
@@ -39,6 +39,10 @@ with col1:
 
      if res:
         st.success('User logged in successfully!')
+        st.session_state.logged_in = True
+        st.session_state.username = usnm
+        st.session_state.user_role = get_user_access(usnm)
+        st.session_state.access = get_role_access(usnm)
         st.switch_page('pages/1_profile.py')
      else:
         st.error('Login failed!')

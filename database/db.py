@@ -78,7 +78,7 @@
     
 
 
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, Boolean
 from sqlalchemy.orm import declarative_base
 
 
@@ -95,4 +95,22 @@ class User(base):
     username = Column(String,unique = True)
     password = Column(String)
 
-base.metadata.create_all(engine)
+
+class UserAccess(base):
+    __tablename__ = 'user_access'
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String)
+    access = Column(String)
+
+
+class RoleAccess(base):
+    __tablename__ = 'role_access'
+
+    id = Column(Integer, primary_key=True)
+    role = Column(String)
+    report_name = Column(String)    
+    can_view = Column(Boolean)
+    can_download = Column(Boolean)
+
+base.metadata.create_all(engine)    

@@ -2,9 +2,21 @@ import streamlit as st
 from utils.styling import apply_background
 from report_service.campaign_overview import (get_campaign_overview)
 import plotly.express as px
+from database.auth import logout
 
 st.set_page_config(layout="wide")
 apply_background('utils/background.jpg')
+
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+if not st.session_state.logged_in:
+    st.warning("Please login first")
+    st.switch_page('app.py')
+    st.stop()
+
+if "campaign_overview" not in st.session_state.reports_to_view:
+    logger.warning(f'User {st.session_state} does not have access to view the report - Campaign Overview')
 
 st.title('Campaign Overview')
 st.markdown("<br>", unsafe_allow_html=True)
@@ -102,10 +114,16 @@ with st.expander("View Raw Data"):
 
     st.dataframe(bar_chart_data)
 
-st.download_button(
-    label = 'Download Report',
-    data = bar_chart_data.to_csv(index=False),
-    file_name='Campaign_overview.csv',
-    mime='text/csv'
-)
+if "campaign_overview" in st.session_state.reports_to_download:
+    logger.info(f'User {st.session_state.username} is downloading the report - Campaign overview')
+    st.download_button(
+        label = 'Download Report',
+        data = bar_chart_data.to_csv(index=False),
+        file_name='Campaign_overview.csv',
+        mime='text/csv'
+    )
 
+with st.sidebar: 
+        if st.button('Logout'):
+            logger.info(f'User {st.session_state.username} logged out')
+            logout()       
