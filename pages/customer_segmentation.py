@@ -2,9 +2,22 @@ import streamlit as st
 from utils.styling import apply_background
 from report_service.customer_segmentation import (get_customer_segment)
 import plotly.express as px
+from database.auth import logout
+from utils.logger import logger
 
 st.set_page_config(layout="wide")
 apply_background('utils/background.jpg')
+
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+if not st.session_state.logged_in:
+    st.warning("Please login first")
+    st.switch_page('app.py')
+    st.stop()
+
+if "customer_segmentation" not in st.session_state.reports_to_view:
+    logger.warning(f'User {st.session_state} does not have access to view the report - Customer Segmentation')
 
 st.title('Customer Segmentation')
 st.markdown("<br>", unsafe_allow_html=True)
@@ -70,11 +83,18 @@ with st.expander("View Raw Data"):
 
     st.dataframe(cp)
 
-st.download_button(
-    label = 'Download Report',
-    data = cp.to_csv(index=False),
-    file_name = f'Customer_Segmentation_Report_By_'
-    f'{selected_perspective.replace(" ","_")}.csv',
-    mime='text/csv'
-)
+if "customer_segmentation" in st.session_state.reports_to_download:
+    logger.info(f'User {st.session_state.username} is downloading the report - Customer Segmentation')
+    st.download_button(
+        label = 'Download Report',
+        data = cp.to_csv(index=False),
+        file_name = f'Customer_Segmentation_Report_By_'
+        f'{selected_perspective.replace(" ","_")}.csv',
+        mime='text/csv'
+    )
+
+with st.sidebar: 
+        if st.button('Logout'):
+            logger.info(f'User {st.session_state.username} logged out')
+            logout()       
 

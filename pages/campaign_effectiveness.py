@@ -2,9 +2,21 @@ import streamlit as st
 from utils.styling import apply_background
 from report_service.campaign_effectiveness import (get_campaign_effectiveness)
 import plotly.express as px
+from database.auth import logout
 
 st.set_page_config(layout="wide")
 apply_background('utils/background.jpg')
+
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+if not st.session_state.logged_in:
+    st.warning("Please login first")
+    st.switch_page('app.py')
+    st.stop()
+
+if "campaign_effectiveness" not in st.session_state.reports_to_view:
+    logger.warning(f'User {st.session_state} does not have access to view the report - Campaign Effectiveness')
 
 st.title('Campaign Effectiveness Report')
 st.markdown("<br>", unsafe_allow_html=True)
@@ -19,6 +31,7 @@ metrics_df = report_df[report_df.outcome != 'NA']
 # st.dataframe(metrics_df)
 
 pivot_df = metrics_df.pivot(index='campaign',columns ='outcome',values = 'outcome_count')
+pivot_df = pivot_df.fillna(0)
 pivot_df['Total'] = pivot_df['success'] + pivot_df['failure']
 pivot_df['Success%'] = round((pivot_df['success']/pivot_df['Total'])*100,2)
 pivot_df['Failure%'] = round((pivot_df['failure']/pivot_df['Total'])*100,2)
@@ -84,9 +97,6 @@ with col1:
 
         st.plotly_chart(fig, use_container_width=True,config={'displayModeBar': False})
 
-       
-
-
 
 with col2:
     with st.container(border=True):
@@ -99,11 +109,18 @@ with col2:
             use_container_width=True,
             height=460
         )
+        if "campaign_effectiveness" in st.session_state.reports_to_download:
+            logger.info(f'User {st.session_state.username} is downloading the report - Campaign Effectiveness')
+            st.download_button(
+                label = 'Download Report',
+                data = lb.to_csv(index=True),
+                file_name='Campaign_effectiveness.csv',
+                mime='text/csv'
+                )
 
-        st.download_button(
-            label = 'Download Report',
-            data = lb.to_csv(index=True),
-            file_name='Campaign_effectiveness.csv',
-            mime='text/csv'
-            )
+
+with st.sidebar: 
+        if st.button('Logout'):
+            logger.info(f'User {st.session_state.username} logged out')
+            logout()       
 
