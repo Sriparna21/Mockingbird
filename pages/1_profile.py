@@ -22,7 +22,7 @@ if st.session_state.logged_in:
 
         st.write(f'Username : {st.session_state.username}')
         st.markdown("<br>", unsafe_allow_html=True)
-        st.metric(f'Your role is : {st.session_state.user_role}')
+        st.write(f'Your role is : {st.session_state.user_role}')
         st.markdown("<br>", unsafe_allow_html=True)
         st.write(f'Reports you have access to : ')
 

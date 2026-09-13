@@ -3,6 +3,9 @@ from utils.styling import apply_background
 from report_service.cpg_cus_affinity import (get_affinity)
 import plotly.express as px
 from database.auth import logout
+import logging
+import pandas as pd
+import requests
 
 st.set_page_config(layout="wide")
 apply_background('utils/background.jpg')
@@ -15,6 +18,10 @@ if not st.session_state.logged_in:
     st.switch_page('app.py')
     st.stop()
 
+logging.basicConfig(level=logging.info)
+logger = logging.getLogger(__name__)
+
+
 if "cpg_cus_affinity" not in st.session_state.reports_to_view:
     logger.warning(f'User {st.session_state} does not have access to view the report - Customer_Campaign_Affinity')
 
@@ -24,7 +31,10 @@ st.markdown("<br>", unsafe_allow_html=True)
 
 st.write('This is a summary report detailing campaign to customer affinity relationships.')
 
-report_df = get_affinity()
+response = requests.get('http://127.0.0.1:8000/campaign/affinity')
+data = response.json()
+
+report_df = pd.DataFrame(data)
 #st.dataframe(report_df)
 
 k1,k2,k3,k4 = st.columns(4)

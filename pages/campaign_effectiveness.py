@@ -3,6 +3,10 @@ from utils.styling import apply_background
 from report_service.campaign_effectiveness import (get_campaign_effectiveness)
 import plotly.express as px
 from database.auth import logout
+import logging
+import requests
+import pandas as pd
+
 
 st.set_page_config(layout="wide")
 apply_background('utils/background.jpg')
@@ -15,6 +19,10 @@ if not st.session_state.logged_in:
     st.switch_page('app.py')
     st.stop()
 
+logging.basicConfig(level=logging.info)
+logger = logging.getLogger(__name__)
+
+
 if "campaign_effectiveness" not in st.session_state.reports_to_view:
     logger.warning(f'User {st.session_state} does not have access to view the report - Campaign Effectiveness')
 
@@ -26,7 +34,10 @@ st.write('This is a summary report detailing campaign performance.')
 
 # st.markdown("<br>", unsafe_allow_html=True)
 
-report_df = get_campaign_effectiveness()
+response = requests.get('http://127.0.0.1:8000/campaign/effectiveness')
+data = response.json()
+
+report_df = pd.DataFrame(data)
 metrics_df = report_df[report_df.outcome != 'NA']
 # st.dataframe(metrics_df)
 
