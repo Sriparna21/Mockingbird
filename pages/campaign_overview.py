@@ -1,8 +1,10 @@
 import streamlit as st
 from utils.styling import apply_background
-from report_service.campaign_overview import (get_campaign_overview)
 import plotly.express as px
 from database.auth import logout
+import requests
+import pandas as pd
+import logging 
 
 st.set_page_config(layout="wide")
 apply_background('utils/background.jpg')
@@ -14,6 +16,9 @@ if not st.session_state.logged_in:
     st.warning("Please login first")
     st.switch_page('app.py')
     st.stop()
+
+logging.basicConfig(level=logging.info)
+logger = logging.getLogger(__name__)
 
 if "campaign_overview" not in st.session_state.reports_to_view:
     logger.warning(f'User {st.session_state} does not have access to view the report - Campaign Overview')
@@ -28,7 +33,10 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 
 k1,k2,k3,k4 = st.columns(4)
 
-report_df = get_campaign_overview()
+response = requests.get('http://127.0.0.1:8000/campaign/overview')
+data = response.json()
+
+report_df = pd.DataFrame(data)
 report_df_metrics = report_df[report_df['outcome'] != 'NA']
 # st.dataframe(report_df)
 

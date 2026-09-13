@@ -4,6 +4,9 @@ from report_service.customer_segmentation import (get_customer_segment)
 import plotly.express as px
 from database.auth import logout
 from utils.logger import logger
+import logging
+import pandas as pd
+import requests
 
 st.set_page_config(layout="wide")
 apply_background('utils/background.jpg')
@@ -16,6 +19,10 @@ if not st.session_state.logged_in:
     st.switch_page('app.py')
     st.stop()
 
+logging.basicConfig(level=logging.info)
+logger = logging.getLogger(__name__)
+
+
 if "customer_segmentation" not in st.session_state.reports_to_view:
     logger.warning(f'User {st.session_state} does not have access to view the report - Customer Segmentation')
 
@@ -27,7 +34,10 @@ st.write('This is a summary report detailing customer insights.')
 
 # st.markdown("<br>", unsafe_allow_html=True)
 
-report_df = get_customer_segment()
+response = requests.get('http://127.0.0.1:8000/campaign/segmentation')
+data = response.json()
+
+report_df = pd.DataFrame(data)
 #st.dataframe(report_df)
 
 k1,k2,k3,k4= st.columns(4)
