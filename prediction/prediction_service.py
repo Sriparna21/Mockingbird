@@ -1,5 +1,6 @@
 import pandas as pd
 from sqlalchemy import create_engine, text
+import numpy as np
 from database.queries import (get_prediction_query)
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
@@ -37,7 +38,7 @@ def build_processor():
 
     preprocessor = ColumnTransformer(
         transformers=[
-        ('categorical',OneHotEncoder(handle_unknown='ignore'),categorical_features),
+        ('categorical',OneHotEncoder(handle_unknown='ignore',drop='first'),categorical_features),
         ('numeric',StandardScaler(),numerical_features)
         ]
         )   
@@ -67,48 +68,167 @@ def evaluate_model(model,X_test_processed,y_test):
 
     return y_pred, accuracy,classification_report_result,confusion_matrix_result
 
-def predict_customer(customer,preprocessor,model):
+def process_factors(factors, customer):
+
+    numeric_mask = factors['Feature'].str.startswith('numeric__')
+
+    # Numeric features
+    factors.loc[numeric_mask, 'Feature_name'] = (
+        factors.loc[numeric_mask, 'Feature']
+        .str.replace('numeric__', '', regex=False)
+    )
+
+    factors.loc[numeric_mask, 'Feature_value'] = (
+        factors.loc[numeric_mask, 'Feature_name']
+        .map(customer)
+    )
+
+    # Categorical features
+    categorical_mask = factors['Feature'].str.startswith('categorical__')
+
+    categorical_features = (
+        factors.loc[categorical_mask, 'Feature']
+        .str.replace('categorical__', '', regex=False)
+        .str.rsplit('_', n=1, expand=True)
+    )
+
+    factors.loc[categorical_mask, 'Feature_name'] = categorical_features[0]
+    factors.loc[categorical_mask, 'Feature_value'] = categorical_features[1]
+
+    return factors
+
+def predict_customer(customer, preprocessor, model):
+
     cust = pd.DataFrame([customer])
+
     cust_transformed = preprocessor.transform(cust)
+
     predicted = model.predict(cust_transformed)
+
     probabilities = model.predict_proba(cust_transformed)
 
-    result={'prediction':predicted[0],
+    features = preprocessor.get_feature_names_out()
+
+    explain_table = pd.DataFrame({
+        'Feature': features,
+        'Coefficient': model.coef_[0],
+        'Transformed value': cust_transformed[0]
+    })
+
+    explain_table['Contribution'] = (
+        explain_table['Coefficient'] *
+        explain_table['Transformed value']
+    )
+
+    explain_table = explain_table.sort_values(
+        by='Contribution',
+        key=lambda x: x.abs(),
+        ascending=False
+    )
+
+    explain_table['Direction'] = np.where(
+        explain_table['Contribution'] > 0,
+        'towards_success',
+        np.where(
+            explain_table['Contribution'] < 0,
+            'towards_failure',
+            'neutral'
+        )
+    )
+
+    success_factors = explain_table[
+        explain_table['Direction'] == 'towards_success'
+    ].head(5).copy()
+
+    failure_factors = explain_table[
+        explain_table['Direction'] == 'towards_failure'
+    ].head(5).copy()
+
+    success_factors = process_factors(success_factors, customer)
+    failure_factors = process_factors(failure_factors, customer)
+
+    success_factors = success_factors[
+        ['Feature_name', 'Feature_value', 'Contribution', 'Direction']
+    ]
+
+    failure_factors = failure_factors[
+        ['Feature_name', 'Feature_value', 'Contribution', 'Direction']
+    ]
+
+    success_factors = success_factors.to_dict(orient='records')
+
+    failure_factors = failure_factors.to_dict(orient='records')
+
+
+    result = {
+        'prediction': predicted[0],
         'failure_probability': float(probabilities[0][0]),
-        'success_probability': float(probabilities[0][1])}
+        'success_probability': float(probabilities[0][1])
+    }
 
-    return result
+    return result, success_factors, failure_factors
 
 
-data = load_prediction_data()
+def initialize_model():
 
-X_train, X_test, y_train , y_test = prepare_training_data(data)
+    data = load_prediction_data()
 
-preprocessor = build_processor()
+    X_train, X_test, y_train , y_test = prepare_training_data(data)
 
-X_train_processed, X_test_processed = process_training_data(X_train,X_test,preprocessor)
+    preprocessor = build_processor()
 
-model = train_model(X_train_processed , y_train)
+    X_train_processed, X_test_processed = process_training_data(X_train,X_test,preprocessor)
 
-y_pred, accuracy,classification_report_result,confusion_matrix_result = evaluate_model(model,X_test_processed,y_test)
 
-# print(accuracy)
-# print(confusion_matrix_result)
-# print(classification_report_result)
+    model = train_model(X_train_processed , y_train)
 
-customer = {
-    "age": 42,
-    "job": "management",
-    "marital": "married",
-    "education": "tertiary",
-    "housing": "yes",
-    "loan": "no",
-    "campaign": 2,
-    "pdays": 180,
-    "deposit": "yes",
-    "balance": 3500
-}
+    return preprocessor, model
 
-result = predict_customer(customer,preprocessor,model)
 
-print(result)
+
+
+
+# data = load_prediction_data()
+
+# X_train, X_test, y_train , y_test = prepare_training_data(data)
+
+# preprocessor = build_processor()
+
+# X_train_processed, X_test_processed = process_training_data(X_train,X_test,preprocessor)
+
+
+# model = train_model(X_train_processed , y_train)
+
+# customer = {
+#     "age": 42,
+#     "job": "management",
+#     "marital": "married",
+#     "education": "tertiary",
+#     "housing": "yes",
+#     "loan": "no",
+#     "campaign": 2,
+#     "pdays": 180,
+#     "deposit": "yes",
+#     "balance": 3500
+# }
+
+# # # cust = pd.DataFrame([customer])
+# # # cust_transformed = preprocessor.transform(cust)
+
+# # features = preprocessor.get_feature_names_out()
+
+# # # explain_table = pd.DataFrame({
+# # #                 'Feature' : features,
+# # #                 'Coefficient' : model.coef_[0],
+# # #                 'Transformed value' : cust_transformed[0]
+# # #             })
+    
+# # # explain_table['Contribution'] = (explain_table['Coefficient']*explain_table['Transformed value'])
+# # # explain_table = explain_table.sort_values(by='Contrubution',key=lambda x: x.abs(), ascending=False)
+
+# result,success,failure = predict_customer(customer,preprocessor,model)
+
+
+# print(success)
+
+

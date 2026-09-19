@@ -4,6 +4,7 @@ from report_service.campaign_overview import (get_campaign_overview)
 from report_service.campaign_effectiveness import (get_campaign_effectiveness)
 from report_service.cpg_cus_affinity import (get_affinity)
 from report_service.customer_segmentation import (get_customer_segment)
+from prediction.prediction_service import predict_customer,initialize_model
 
 app = FastAPI()
 
@@ -57,3 +58,40 @@ class CampaignSegmentation(BaseModel):
 def campaign_segmentation_api():
     data = get_customer_segment()
     return(data.to_dict(orient='records'))
+
+
+class CustomerPredictionRequest(BaseModel):
+    age : int
+    job : str
+    marital : str
+    education : str
+    housing : str
+    loan : str
+    campaign : int
+    pdays : int
+    deposit : str
+    balance : int
+
+class Factors(BaseModel):
+    Feature_name : str
+    Feature_value : str | int | float
+    Contribution : float
+    Direction : str
+class CustomerPredictionResponse(BaseModel):
+    prediction : str
+    failure_probability : float
+    success_probability : float
+    success_factors : list[Factors]
+    failure_factors : list[Factors]
+
+preprocessor, model = initialize_model()
+
+@app.post('/campaign/predict', response_model=CustomerPredictionResponse)
+def campaign_prediction_api(customer : CustomerPredictionRequest):
+    result,success_factors,failure_factors = predict_customer(customer.model_dump(),preprocessor,model)
+
+    return {'prediction' : result['prediction'],
+        'failure_probability' : result['failure_probability'],
+        'success_probability' : result['success_probability'],
+        'success_factors' : success_factors,
+        'failure_factors' : failure_factors}
